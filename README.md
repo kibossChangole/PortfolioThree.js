@@ -1,6 +1,6 @@
 **Gameified Portfolio Three.js**
 
-Personal Portfolio website implementing a gameifieid 3D interface through Three.js
+Personal Portfolio website implementing a gamified 3D interface through Three.js
 License free assets used
 
 Start Screen

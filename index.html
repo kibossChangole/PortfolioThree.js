@@ -3,34 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Questrial&display=swap" rel="stylesheet">
-    <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
-    
 
-    <script src="script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Questrial&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+
     <script type="module" src="/main.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
   <body>
+    <div id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <span id="close-sidebar">&times;</span>
+      </div>
+      <ul class="sidebar-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
     <div id="container">
       <div class="title">
-        <img id="logo" src="Reallogo.svg" alt="">
-        <img id = "menu" src="menu.svg" alt="">
-        <div class = "glaze"> <!--<p>Kiboss Changole Developer/Analyst</p>--></div>
+        <img id="logo" src="Reallogo.svg" alt="" />
+        <img id="menu" src="menu.svg" alt="" style="cursor: pointer" />
+        <div class="glaze"><!--<p>Kiboss Changole Developer/Analyst</p>--></div>
       </div>
-      <canvas id="bg">
-      </canvas>
-      <div id="next-page" style="height: 100vh;"></div>
-      
+      <canvas id="bg"> </canvas>
+      <div id="next-page" style="margin-top: 100vh; min-height: 100vh; padding: 180px 40px; box-sizing: border-box; background: white; position: relative; z-index: 10;">
+        <h1 style="font-family: 'Cinzel', serif; font-size: 3rem; color: #333;">About Me</h1>
+        <p style="font-family: 'Questrial', sans-serif; font-size: 1.2rem; line-height: 1.6; max-width: 800px; color: #666;">
+          Welcome to my portfolio! This section slides up to reveal more details about my work and experience.
+          You can return to the 3D scene by clicking the logo in the top left.
+        </p>
+        <div style="margin-top: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+          <div style="padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+            <h3>Project One</h3>
+            <p>Description of a cool project using Three.js and Vite.</p>
+          </div>
+          <div style="padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+            <h3>Project Two</h3>
+            <p>Another impressive piece of work worth showcasing here.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    
- 
-
-    
   </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/Tween.min.js"></script>
 </html>

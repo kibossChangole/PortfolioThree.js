@@ -65,16 +65,16 @@ body.show-content canvas {
   height: 100px;
   width: 80px;
   /* left: 10px; */
-  top: 20px;
-  right: 20px;
+  top:10px;
+  right: 30px;
 }
 
 #logo {
   position: absolute;
-  height: 220px;
+  height: 110px;
   width: 170px;
   left: -20px;
-  top: -26px;
+  top: -10px;
 }
 
 /* Allow scrolling only when on sub-pages */

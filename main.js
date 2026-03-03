@@ -14,6 +14,7 @@ let boatControls;
 
 // Create a scene
 const scene = new THREE.Scene();
+const colliders = []; // Array to store objects the boat should not pass through
 
 // Create a camera
 const camera = new THREE.PerspectiveCamera(
@@ -127,6 +128,10 @@ loader.load(
 
     // Add the loaded model to the scene
     scene.add(lighthousemodel);
+    colliders.push(lighthousemodel);
+    
+    // If boat is already loaded, add lighthouse as collider
+    if (boatControls) boatControls.addCollider(lighthousemodel);
   },
   undefined,
   function (error) {
@@ -199,6 +204,9 @@ mtlLoader.load(
         
         // Initialize controls for this boat
         boatControls = new BoatControls(object, scene);
+        
+        // Add existing colliders to the boat
+        colliders.forEach(c => boatControls.addCollider(c));
       },
       undefined,
       (error) => {
@@ -327,10 +335,10 @@ controls.maxDistance = 41;
 
 */
 
-controls.enabled = true;
-controls.enableZoom = true;
-controls.enablePan = true;
-controls.enableRotate = true;
+controls.enabled = false;
+controls.enableZoom = false;
+controls.enablePan = false;
+controls.enableRotate = false;
 
 // Define the target position for the camera zoom-in
 var targetPosition = new THREE.Vector3(35, 1, 10); // Adjust as needed

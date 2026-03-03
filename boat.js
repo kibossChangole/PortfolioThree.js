@@ -4,6 +4,7 @@ export class BoatControls {
     constructor(boat, scene) {
         this.boat = boat;
         this.scene = scene;
+        this.colliders = []; // Objects to collide with
         this.keys = {
             ArrowUp: false,
             ArrowDown: false,
@@ -41,8 +42,16 @@ export class BoatControls {
         }
     }
 
+    addCollider(object) {
+        this.colliders.push(object);
+    }
+
     update() {
         if (!this.boat) return;
+
+        // Save current position and rotation for potential rollback
+        const oldPos = this.boat.position.clone();
+        const oldRot = this.boat.rotation.clone();
 
         // Forward and backward movement
         if (this.keys.ArrowUp || this.keys.w) {
@@ -77,12 +86,34 @@ export class BoatControls {
         this.boat.rotation.y += this.rotationSpeed;
 
         // Apply movement based on rotation
-        // Standard forward is +Z in most models, but if it has been rotated 1.2 in main.js...
-        // Wait, main.js has object.rotateY(49.2) previously, but I removed it in my consolidate.
-        // Actually, the user's last edit had `object.rotateY(49.2)` in the first load and nothing in the second.
-        // I'll assume the model's front is Z.
         const direction = new THREE.Vector3(0, 0, 1);
         direction.applyQuaternion(this.boat.quaternion);
         this.boat.position.addScaledVector(direction, this.speed);
+
+        // --- Collision Detection ---
+        if (this.colliders.length > 0) {
+            this.boat.updateMatrixWorld(); // Ensure world positions are up to date
+            
+            // Create a bounding box for the boat and shrink it slightly for "wiggle room"
+            const boatBox = new THREE.Box3().setFromObject(this.boat);
+            boatBox.expandByScalar(-0.5); // Shrink the collision box so we don't get stuck on edges
+
+            for (let collider of this.colliders) {
+                collider.updateMatrixWorld();
+                const colliderBox = new THREE.Box3().setFromObject(collider);
+                
+                // Shrink collider box slightly too for smoother physics
+                colliderBox.expandByScalar(-0.5);
+
+                if (boatBox.intersectsBox(colliderBox)) {
+                    // Collision detected! Roll back position and stop speed
+                    this.boat.position.copy(oldPos);
+                    this.boat.rotation.copy(oldRot);
+                    this.speed = -this.speed * 0.5; // Bounce back slightly
+                    this.rotationSpeed = 0;
+                    break;
+                }
+            }
+        }
     }
 }

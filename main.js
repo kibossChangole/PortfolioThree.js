@@ -220,6 +220,25 @@ mtlLoader.load(
   },
 );
 
+// A simple flat ring
+const geometry = new THREE.RingGeometry(0.9, 1, 64); 
+const material = new THREE.MeshBasicMaterial({ 
+    color: 0xCAF0F8, 
+    side: THREE.DoubleSide, 
+    transparent: true, 
+    opacity: 0.5 
+});
+const halo = new THREE.Mesh(geometry, material);
+
+// Rotate to lay flat on the ground
+halo.rotation.x = Math.PI / 2; 
+halo.position.y = 0.1;
+halo.position.x = -16;
+halo.position.z = 20;
+halo.scale.set(8, 8, 8);
+
+scene.add(halo);
+
 // Function to create a rounded rectangular panel
 function createRoundedPanel(width, height, depth, radius) {
   const shape = new THREE.Shape();
@@ -335,10 +354,10 @@ controls.maxDistance = 41;
 
 */
 
-controls.enabled = false;
-controls.enableZoom = false;
-controls.enablePan = false;
-controls.enableRotate = false;
+controls.enabled = true;
+controls.enableZoom = true;
+controls.enablePan = true;
+controls.enableRotate = true;
 
 // Define the target position for the camera zoom-in
 var targetPosition = new THREE.Vector3(35, 1, 10); // Adjust as needed
@@ -383,6 +402,27 @@ const animate = () => {
   if (boatControls) boatControls.update();
   controls.update();
   renderer.render(scene, camera);
+
+
+  //HALO PULSE LOGIC
+
+ // 1. Get a time-based value (the multiplier controls speed)
+    const time = Date.now() * 0.002; 
+    
+    // 2. Create the pulse value (oscillates between 0.8 and 1.2)
+    const pulse = 1 + Math.sin(time) * 0.2;
+    
+    // 3. Apply to scale (multiplying by your base scale of 15)
+    const baseScale = 10;
+    halo.scale.set(
+        baseScale * pulse, 
+        baseScale * pulse, 
+        baseScale * pulse
+    );
+
+    // 4. Optional: Pulse the opacity too for a "breathing" effect
+    // This oscillates opacity between 0.2 and 0.6
+    halo.material.opacity = 0.4 + Math.sin(time) * 0.2;
 };
 
 // Start the animation loop
